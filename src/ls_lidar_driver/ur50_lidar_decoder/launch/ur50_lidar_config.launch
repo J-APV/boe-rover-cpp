@@ -1,0 +1,26 @@
+<launch>
+
+  <arg name="device_IP" default="192.168.1.222" />
+  <arg name="device_Port" default="2368" />
+  <arg name="laser_link" default="laser_link" />
+  <arg name="start_angle" default="0" />
+  <arg name="end_angle" default="360" />
+
+  <node pkg="ur50_lidar_driver" type="ur50_lidar_driver_node" name="ur50_lidar_driver_node" output="screen">
+    <param name="frame_id" value="$(arg laser_link)"/>
+    <param name="device_ip" value="$(arg device_IP)"/>
+    <param name="device_port" value="$(arg device_Port)"/>
+  </node>
+
+  <node pkg="ur50_lidar_decoder" type="ur50_lidar_decoder_node" name="ur50_lidar_decoder_node" output="screen">
+    <param name="child_frame_id" value="$(arg laser_link)"/>
+    <param name="point_num" value="2000"/>
+    <param name="start_angle" value="$(arg start_angle)"/>
+    <param name="end_angle" value="$(arg end_angle)"/>
+    <param name="min_range" value="0.3"/>
+    <param name="max_range" value="100.0"/>
+    <param name="frequency" value="10.0"/>
+    <param name="publish_point_cloud" value="false"/>
+  </node>
+
+</launch>
